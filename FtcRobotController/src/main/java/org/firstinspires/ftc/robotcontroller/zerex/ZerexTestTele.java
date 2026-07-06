@@ -69,13 +69,13 @@ public class  ZerexTestTele extends OpMode {
         }
 
         if (gamepad2.b){
-            intake.intake();
+            intake.outtake();
         } else {
             intake.stop();
         }
 
         if (gamepad2.a){
-            intake.outtake();
+            intake.intake();
         } else {
             intake.stop();
         }
