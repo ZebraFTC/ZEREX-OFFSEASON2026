@@ -24,8 +24,8 @@ public class Neck {
     }
 
     public void down(double power){
-        motorLeft.setPower(power);
-        motorRight.setPower(power);
+        motorLeft.setPower(-power);
+        motorRight.setPower(-power);
     }
 
     public void stop(){

@@ -17,8 +17,8 @@ public class  ZerexTestTele extends OpMode {
     private double drive;
     private double strafe;
     private double turn;
-    private final double SPEED = 0.7;
-    private final double SLOW_SPEED = 0.2;
+    private final double SPEED = 0.65;
+    private final double SLOW_SPEED = 0.25;
 
     Neck arm;
     Mouth intake;
@@ -64,13 +64,13 @@ public class  ZerexTestTele extends OpMode {
 
 
         if (gamepad2.left_stick_y > 0.2){
-            arm.down(-gamepad2.left_stick_y);
+            arm.up(1.0);
         } else {
             arm.stop();
         }
 
         if (gamepad2.left_stick_y < -0.2){
-            arm.up(-gamepad2.left_stick_y);
+            arm.down(1.0);
         } else {
             arm.stop();
         }
