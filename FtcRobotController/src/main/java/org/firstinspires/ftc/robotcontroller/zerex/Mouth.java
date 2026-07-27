@@ -10,12 +10,12 @@ public class Mouth {
         this.mouth = mouth;
     }
 
-    public void outtake(){
-        mouth.setPower(-1.0);
+    public void outtake( ){
+        mouth.setPower(1.0);
     }
 
     public void intake(){
-        mouth.setPower(1.0);
+        mouth.setPower(-1.0);
     }
 
     public void stop(){

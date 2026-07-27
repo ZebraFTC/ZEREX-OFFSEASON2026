@@ -18,14 +18,14 @@ public class Neck {
         motorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
-    public void up(){
-        motorLeft.setPower(1.0);
-        motorRight.setPower(1.0);
+    public void up(double power){
+        motorLeft.setPower(power);
+        motorRight.setPower(power);
     }
 
-    public void down(){
-        motorLeft.setPower(-1.0);
-        motorRight.setPower(-1.0);
+    public void down(double power){
+        motorLeft.setPower(power);
+        motorRight.setPower(power);
     }
 
     public void stop(){

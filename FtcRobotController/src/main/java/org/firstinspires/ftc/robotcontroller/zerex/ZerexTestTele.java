@@ -13,14 +13,12 @@ public class  ZerexTestTele extends OpMode {
     private DcMotor frontRight;
     private DcMotor backRight;
     private DcMotor backLeft;
-    private DcMotor leftArmMotor;
-    private DcMotor rightArmMotor;
-    private DcMotor intakeMotor;
 
     private double drive;
     private double strafe;
     private double turn;
-    private final double SPEED = 1.0;
+    private final double SPEED = 0.7;
+    private final double SLOW_SPEED = 0.2;
 
     Neck arm;
     Mouth intake;
@@ -32,13 +30,16 @@ public class  ZerexTestTele extends OpMode {
         frontRight = hardwareMap.get(DcMotor.class, "frontRight");
         backRight = hardwareMap.get(DcMotor.class, "backRight");
         backLeft = hardwareMap.get(DcMotor.class, "backLeft");
-        leftArmMotor = hardwareMap.get(DcMotor.class, "leftArmMotor");
-        rightArmMotor = hardwareMap.get(DcMotor.class, "rightArmMotor");
-        intakeMotor = hardwareMap.get(DcMotor.class, "intake");
+        DcMotor leftArmMotor = hardwareMap.get(DcMotor.class, "leftArmMotor");
+        DcMotor rightArmMotor = hardwareMap.get(DcMotor.class, "rightArmMotor");
+        DcMotor intakeMotor = hardwareMap.get(DcMotor.class, "intake");
 
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         backRight.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        rightArmMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftArmMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         arm = new Neck(leftArmMotor, rightArmMotor);
         intake = new Mouth(intakeMotor);
@@ -46,35 +47,41 @@ public class  ZerexTestTele extends OpMode {
 
     @Override
     public void loop() {
-
-        drive = -SPEED * gamepad1.left_stick_y; //y inputs are reversed
-        strafe = SPEED * gamepad1.left_stick_x;
-        turn = SPEED * gamepad1.right_stick_x;
+        if (gamepad1.left_trigger < 0.2) {
+            drive = -SPEED * gamepad1.left_stick_y; //y inputs are reversed
+            strafe = SPEED * gamepad1.left_stick_x;
+            turn = SPEED * gamepad1.right_stick_x;
+        } else {
+            drive = -SLOW_SPEED * gamepad1.left_stick_y; //y inputs are reversed
+            strafe = SLOW_SPEED * gamepad1.left_stick_x;
+            turn = SLOW_SPEED * gamepad1.right_stick_x;
+        }
 
         frontLeft.setPower(drive + turn + strafe);
         frontRight.setPower(drive - turn - strafe); //
         backLeft.setPower(drive + turn - strafe); //
         backRight.setPower(drive - turn + strafe); //
 
-        if (gamepad2.left_trigger > 0.2){
-            arm.down();
+
+        if (gamepad2.left_stick_y > 0.2){
+            arm.down(-gamepad2.left_stick_y);
+        } else {
+            arm.stop();
+        }
+
+        if (gamepad2.left_stick_y < -0.2){
+            arm.up(-gamepad2.left_stick_y);
         } else {
             arm.stop();
         }
 
         if (gamepad2.right_trigger > 0.2){
-            arm.up();
-        } else {
-            arm.stop();
-        }
-
-        if (gamepad2.b){
             intake.outtake();
         } else {
             intake.stop();
         }
 
-        if (gamepad2.a){
+        if (gamepad2.left_trigger > 0.2){
             intake.intake();
         } else {
             intake.stop();
