@@ -1,25 +1,25 @@
 package org.firstinspires.ftc.robotcontroller.zerex;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @Autonomous
-public class RedAutoZerex extends OpMode {
+public class RedAutoZerex extends LinearOpMode {
     private DcMotor frontLeft;
     private DcMotor frontRight;
     private DcMotor backRight;
     private DcMotor backLeft;
 
-    int step = 0;
 
     Neck arm;
     Mouth intake;
     MecanumDrive drive;
 
     @Override
-    public void init() {
+    public void runOpMode() throws InterruptedException {
         frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
         frontRight = hardwareMap.get(DcMotor.class, "frontRight");
         backRight = hardwareMap.get(DcMotor.class, "backRight");
@@ -29,24 +29,22 @@ public class RedAutoZerex extends OpMode {
         DcMotor intakeMotor = hardwareMap.get(DcMotor.class, "intake");
 
 
-        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        backRight.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        rightArmMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftArmMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
         arm = new Neck(leftArmMotor, rightArmMotor);
         intake = new Mouth(intakeMotor);
         drive = new MecanumDrive(frontLeft, frontRight, backLeft, backRight);
 
-    }
 
-    @Override
-    public void loop() {
-        drive.drive(1000,1001,1000,1000,1.0);
-        switch (step){
+        waitForStart();
+        if (opModeIsActive()){
+            drive.targetDrive(1000,1000,1000,1000,0.6);
+            while (opModeIsActive() && drive.isBusy()) {
+                idle();
+            }
+            drive.stopMotors();
+            sleep(250);
 
         }
+
     }
+
 }

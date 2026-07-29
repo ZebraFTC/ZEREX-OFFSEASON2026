@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.robotcontroller.zerex;
 
+
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
@@ -23,18 +25,34 @@ public class MecanumDrive {
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         backRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
+
+        frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+
+        resetEncoders();
+
+    }
+
+    public void resetEncoders() {
         frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        
-        //zero power behavior?
 
+        // This mode runs the motors using internal velocity tuning curves
+        frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-    public void drive(int frontLeftTarget, int frontRightTarget, int backLeftTarget, int backRightTarget, double speed){
-
-
+    public void teleDrive(){
+        //
+    }
+    public void targetDrive(int frontLeftTarget, int frontRightTarget, int backLeftTarget, int backRightTarget, double speed){
         frontLeft.setTargetPosition(frontLeft.getCurrentPosition() + frontLeftTarget);
         frontRight.setTargetPosition(frontRight.getCurrentPosition() + frontRightTarget);
         backLeft.setTargetPosition(backLeft.getCurrentPosition() + backLeftTarget);
@@ -50,11 +68,18 @@ public class MecanumDrive {
         backLeft.setPower(speed);
         backRight.setPower(speed);
 
+        }
+
+    public boolean isBusy() {
+        return frontLeft.isBusy() || frontRight.isBusy() || backLeft.isBusy() || backRight.isBusy();
+    }
+
+    public void stopMotors() {
         frontLeft.setPower(0);
         frontRight.setPower(0);
         backLeft.setPower(0);
         backRight.setPower(0);
-
-
     }
+
+
 }
