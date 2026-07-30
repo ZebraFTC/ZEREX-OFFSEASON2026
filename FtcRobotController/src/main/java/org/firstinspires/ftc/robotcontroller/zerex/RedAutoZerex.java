@@ -35,16 +35,16 @@ public class RedAutoZerex extends LinearOpMode {
 
 
         waitForStart();
-        if (opModeIsActive()){
-            drive.targetDrive(1000,1000,1000,1000,0.6);
-            while (opModeIsActive() && drive.isBusy()) {
-                idle();
+            if (opModeIsActive()) {
+                drive.targetDrive(1000, 1000, 1000, 1000, 0.6);
+                while (opModeIsActive() && drive.isBusy()) {
+                    idle();
+                }
+                drive.stopMotors();
+                sleep(25000);
+
             }
-            drive.stopMotors();
-            sleep(250);
 
         }
 
     }
-
-}

@@ -5,7 +5,10 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 public class MecanumDrive {
+    public static final double DRIVE_TO_POWER = 0.2;
     DcMotor frontLeft;
     DcMotor frontRight;
     DcMotor backLeft;
@@ -14,6 +17,8 @@ public class MecanumDrive {
     private int frontRightPosition;
     private int backLeftPosition;
     private int backRightPosition;
+    private double xPos;
+    private double yPos;
 
     public MecanumDrive(DcMotor frontLeft,DcMotor frontRight, DcMotor backLeft, DcMotor backRight){
         this.frontLeft = frontLeft;
@@ -23,7 +28,6 @@ public class MecanumDrive {
 
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        backRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
 
         frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -31,7 +35,8 @@ public class MecanumDrive {
         backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-
+        yPos=0;
+        xPos=0;
         resetEncoders();
 
     }
@@ -80,6 +85,4 @@ public class MecanumDrive {
         backLeft.setPower(0);
         backRight.setPower(0);
     }
-
-
 }
