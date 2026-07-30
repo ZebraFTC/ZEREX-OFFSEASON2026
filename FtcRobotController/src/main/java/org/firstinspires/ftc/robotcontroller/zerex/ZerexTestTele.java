@@ -1,5 +1,5 @@
 package org.firstinspires.ftc.robotcontroller.zerex;
-
+//right back wheel moves backwards for some reason
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
