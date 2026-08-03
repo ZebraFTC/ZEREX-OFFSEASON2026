@@ -61,27 +61,23 @@ public class  ZerexTestTele extends OpMode {
         backRight.setPower(drive - turn + strafe); //
 
 
-        if (gamepad2.left_stick_y > 0.2){
+        if (gamepad2.left_stick_y > 0.2) {
             arm.up(1.0);
-        } else {
-            arm.stop();
         }
-
-        if (gamepad2.left_stick_y < -0.2){
+        else if (gamepad2.left_stick_y < -0.2){
             arm.down(1.0);
-        } else {
-            arm.stop();
+        }
+        else {
+            arm.hold();
         }
 
-        if (gamepad2.right_trigger > 0.2){
+        if (gamepad2.right_trigger > 0.2) {
             intake.outtake();
-        } else {
-            intake.stop();
         }
-
-        if (gamepad2.left_trigger > 0.2){
+        else if (gamepad2.left_trigger > 0.2){
             intake.intake();
-        } else {
+        }
+        else {
             intake.stop();
         }
 

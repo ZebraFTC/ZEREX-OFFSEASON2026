@@ -5,12 +5,11 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 @Autonomous
-public class RedAutoZerex extends LinearOpMode {
+public class ZerexTaxi extends LinearOpMode {
     private DcMotor frontLeft;
     private DcMotor frontRight;
     private DcMotor backRight;
     private DcMotor backLeft;
-    private
 
 
     Neck arm;
@@ -34,19 +33,19 @@ public class RedAutoZerex extends LinearOpMode {
 
 
         waitForStart();
-        if (opModeIsActive()) {
-            drive.targetDrive(1000, 1000, 1000, 1000, 0.6);
-            while (opModeIsActive() && drive.isBusy()) {
-                idle();
+            if (opModeIsActive()) {
+                drive.targetDrive(1000, 1000, 1000, 1000, 0.6);
+                while (opModeIsActive() && drive.isBusy()) {
+                    idle();
+                }
+                telemetry.addData("six","seven");
+                telemetry.addData("six","seven");
+                telemetry.addData("six","seven");
+                drive.stopMotors();
+                sleep(25000);
+
             }
-            telemetry.addData("six","seven");
-            telemetry.addData("six","seven");
-            telemetry.addData("six","seven");
-            drive.stopMotors();
-            sleep(25000);
 
         }
 
     }
-
-}
