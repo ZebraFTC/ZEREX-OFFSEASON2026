@@ -17,6 +17,7 @@ public class Neck {
 
 
         motorLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+
         motorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 

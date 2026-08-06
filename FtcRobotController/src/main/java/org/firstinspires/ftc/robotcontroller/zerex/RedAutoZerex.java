@@ -10,7 +10,6 @@ public class RedAutoZerex extends LinearOpMode {
     private DcMotor frontRight;
     private DcMotor backRight;
     private DcMotor backLeft;
-    private
 
 
     Neck arm;
@@ -36,15 +35,20 @@ public class RedAutoZerex extends LinearOpMode {
         waitForStart();
         if (opModeIsActive()) {
             drive.targetDrive(1000, 1000, 1000, 1000, 0.6);
-            while (opModeIsActive() && drive.isBusy()) {
+            double startTime = getRuntime();
+            while (opModeIsActive() && drive.isBusy() && (getRuntime() - startTime < 5.0)) {
+                telemetry.addData("Status", "Driving by ticks...");
+                telemetry.update();
                 idle();
             }
-            telemetry.addData("six","seven");
-            telemetry.addData("six","seven");
-            telemetry.addData("six","seven");
             drive.stopMotors();
-            sleep(25000);
+            arm.up(-1.0);
+            telemetry.addData("Arm status", "Moving Up");
+            telemetry.update();
 
+            sleep(10000);
+
+            arm.up(1);
         }
 
     }
