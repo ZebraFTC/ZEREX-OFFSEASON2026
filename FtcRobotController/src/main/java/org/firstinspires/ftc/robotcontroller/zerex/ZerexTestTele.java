@@ -1,4 +1,6 @@
 package org.firstinspires.ftc.robotcontroller.zerex;
+import com.qualcomm.ftccommon.SoundPlayer;
+import android.content.Context;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -18,10 +20,10 @@ public class  ZerexTestTele extends OpMode {
     private double turn;
     private final double SPEED = 0.65;
     private final double SLOW_SPEED = 0.25;
-
     Neck arm;
     Mouth intake;
-
+    private Context myApp;
+    private int soundID;
 
     @Override
     public void init() {
@@ -41,6 +43,9 @@ public class  ZerexTestTele extends OpMode {
 
         arm = new Neck(leftArmMotor, rightArmMotor);
         intake = new Mouth(intakeMotor);
+        myApp = hardwareMap.appContext;
+        soundID = myApp.getResources().getIdentifier("robot_startup", "raw", myApp.getPackageName());
+        SoundPlayer.getInstance().startPlaying(myApp, soundID);
     }
 
     @Override
