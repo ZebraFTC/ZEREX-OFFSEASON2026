@@ -37,18 +37,35 @@ public class RedAutoZerex extends LinearOpMode {
             drive.targetDrive(1000, 1000, 1000, 1000, 0.6);
             double startTime = getRuntime();
             while (opModeIsActive() && drive.isBusy() && (getRuntime() - startTime < 5.0)) {
-                telemetry.addData("Status", "Driving by ticks...");
-                telemetry.update();
                 idle();
             }
             drive.stopMotors();
             arm.up(-1.0);
-            telemetry.addData("Arm status", "Moving Up");
-            telemetry.update();
-
-            sleep(10000);
-
-            arm.up(1);
+            sleep(1500);
+            arm.stop();
+            drive.targetDrive(500, 500, 500, 500, 0.6);
+            startTime = getRuntime();
+            while (opModeIsActive() && drive.isBusy() && (getRuntime() - startTime < 5.0)) {
+                idle();
+            }
+            drive.stopMotors();
+            intake.outtake();
+            sleep(1500);
+            drive.targetDrive(-1500, -1500, -1500, -1500, 0.6);
+            startTime = getRuntime();
+            while (opModeIsActive() && drive.isBusy() && (getRuntime() - startTime< 5.0)) {
+                idle();
+            }
+            drive.stopMotors();
+            arm.down(-1.0);//why is both down and up negative
+            sleep(1300);
+            arm.stop();
+            drive.targetDrive(1500, -1500, -1500, 1500, 0.6);
+            startTime = getRuntime();
+            while (opModeIsActive() && drive.isBusy() && (getRuntime() - startTime< 5.0)) {
+                idle();
+            }
+            drive.stopMotors();
         }
 
     }
