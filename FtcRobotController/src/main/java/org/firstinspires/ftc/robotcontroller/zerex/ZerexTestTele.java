@@ -64,10 +64,10 @@ public class  ZerexTestTele extends OpMode {
 
 
         if (gamepad2.left_stick_y > 0.2) {
-            arm.up(0.5);
+            arm.down(0.5);
         }
         else if (gamepad2.left_stick_y < -0.2){
-            arm.down(0.5);
+            arm.up(0.5);
         }
         else {
             arm.hold();
