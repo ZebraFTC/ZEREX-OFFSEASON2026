@@ -35,8 +35,8 @@ public class Neck {
         motorRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
-        motorLeft.setPower(power);
-        motorRight.setPower(power);
+        motorLeft.setPower(-power);
+        motorRight.setPower(-power);
     }
 
     public void down(double power){
@@ -45,8 +45,8 @@ public class Neck {
         motorRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
-        motorLeft.setPower(-power);
-        motorRight.setPower(-power);
+        motorLeft.setPower(power);
+        motorRight.setPower(power);
     }
 
     public void stop(){

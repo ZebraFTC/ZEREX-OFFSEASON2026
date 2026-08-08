@@ -43,9 +43,6 @@ public class  ZerexTestTele extends OpMode {
 
         arm = new Neck(leftArmMotor, rightArmMotor);
         intake = new Mouth(intakeMotor);
-        myApp = hardwareMap.appContext;
-        soundID = myApp.getResources().getIdentifier("wii", "raw", myApp.getPackageName());
-        SoundPlayer.getInstance().startPlaying(myApp, soundID);
     }
 
     @Override
