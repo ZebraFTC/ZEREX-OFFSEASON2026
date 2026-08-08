@@ -22,8 +22,6 @@ public class  ZerexTestTele extends OpMode {
     private final double SLOW_SPEED = 0.25;
     Neck arm;
     Mouth intake;
-    private Context myApp;
-    private int soundID;
 
     @Override
     public void init() {
@@ -47,7 +45,7 @@ public class  ZerexTestTele extends OpMode {
 
     @Override
     public void loop() {
-        if (gamepad1.left_trigger < 0.2) {
+        if (!gamepad1.left_bumper) {
             drive = -SPEED * gamepad1.left_stick_y; //y inputs are reversed
             strafe = SPEED * gamepad1.left_stick_x;
             turn = SPEED * gamepad1.right_stick_x;
@@ -56,7 +54,6 @@ public class  ZerexTestTele extends OpMode {
             strafe = SLOW_SPEED * gamepad1.left_stick_x;
             turn = SLOW_SPEED * gamepad1.right_stick_x;
         }
-
         frontLeft.setPower(drive + turn + strafe);
         frontRight.setPower(drive - turn - strafe); //
         backLeft.setPower(drive + turn - strafe); //
