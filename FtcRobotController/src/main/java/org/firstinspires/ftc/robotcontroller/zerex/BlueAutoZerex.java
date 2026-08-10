@@ -61,7 +61,7 @@ public class BlueAutoZerex extends LinearOpMode {
             arm.down(0.7);
             sleep(750);
             arm.stop();
-            drive.targetDrive(-2700, 2500, 2500, -2700, 0.6);
+            drive.targetDrive(-2500, 2700, 2700, -2500, 0.6);
             startTime = getRuntime();
             while (opModeIsActive() && drive.isBusy() && (getRuntime() - startTime< 5.0)) {
                 idle();
