@@ -7,7 +7,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @TeleOp
-
 public class  ZerexTestTele extends OpMode {
 
     private DcMotor frontLeft;
@@ -62,23 +61,19 @@ public class  ZerexTestTele extends OpMode {
 
         if (gamepad2.left_stick_y > 0.2) {
             arm.down(0.5);
-        }
-        else if (gamepad2.left_stick_y < -0.2){
+        } else if (gamepad2.left_stick_y < -0.2) {
             arm.up(0.5);
-        }
-        else {
+        } else {
             arm.hold();
         }
 
         if (gamepad2.right_trigger > 0.2) {
             intake.outtake();
-        }
-        else if (gamepad2.left_trigger > 0.2){
+        } else if (gamepad2.left_trigger > 0.2) {
             intake.intake();
-        }
-        else {
+        } else {
             intake.stop();
         }
 
     }
-    }
+}
