@@ -27,8 +27,6 @@ public class PPtestZerex extends OpMode {
     public Follower follower;
     private int pathState;
     private Paths paths;
-
-    // Using a reliable system millisecond timestamp to remove any library timer bugs
     private long actionTimer;
 
     @Override
@@ -48,7 +46,7 @@ public class PPtestZerex extends OpMode {
 
         follower = Constants.createFollower(hardwareMap);
         follower.setStartingPose(new Pose(10, 70, Math.toRadians(0)));
-        paths = new Paths(follower,arm,intake);
+        paths = new Paths(follower);
 
         panelsTelemetry = PanelsTelemetry.INSTANCE.getTelemetry();
         panelsTelemetry.debug("Status", "Initialized Successfully");
@@ -74,34 +72,89 @@ public class PPtestZerex extends OpMode {
     }
 
     public static class Paths {
-        public PathChain completeAutoChain;
-
-        public Paths(Follower follower,Neck arm, Mouth intake) {
-            completeAutoChain = follower.pathBuilder()
+        public PathChain autoChainOne;
+        public PathChain autoChainTwo;
+        public PathChain autoChainThree;
+        public PathChain autoChainFour;
+        public PathChain autoChainFive;
+        public PathChain autoChainSix;
+        public PathChain autoChainSeven;
+        public Paths(Follower follower) {
+            autoChainOne = follower.pathBuilder()
                     .addPath(
                             new BezierLine(
                                     new Pose(10.000, 70.000),
-                                    new Pose(35, 70.000)
+                                    new Pose(25.495, 70.000)
                             )
                     )
                     .setTangentHeadingInterpolation()
-                    .addTemporalCallback(0.0, () -> {
-                        arm.up(0.5);
-                    })
-
-                    .addTemporalCallback(0.75, () -> {
-                        arm.stop();
-                        intake.outtake();
-                    })
-
-                    .addTemporalCallback(2.75, () -> {
-                        intake.stop();
-                        intake.intake();
-                    })
-                    .addTemporalCallback(5.75, () -> {
-                        intake.stop();
-                    })
-
+                    .build();
+            autoChainTwo=follower.pathBuilder()
+                    //arm up
+                    .addPath(
+                            new BezierLine(
+                                    new Pose(25.495, 70.000),
+                                    new Pose(38.000, 70.000)
+                            )
+                    )
+                    .setTangentHeadingInterpolation()
+                    .build();
+            autoChainThree=follower.pathBuilder()
+                    //outtake
+                    .addPath(
+                            new BezierLine(
+                                    new Pose(38.000, 70.000),
+                                    new Pose(25.559, 70.000)
+                            )
+                    )
+                    .setConstantHeadingInterpolation(Math.toRadians(0))
+                    .build();
+            autoChainFour=follower.pathBuilder()
+                    //arm down
+                    .addPath(
+                            new BezierLine(
+                                    new Pose(25.559, 70.000),
+                                    new Pose(52.335, 121.437)
+                            )
+                    )
+                    .setTangentHeadingInterpolation()
+                    .build();
+            autoChainFive=follower.pathBuilder()
+                    //intake
+                    .addPath(
+                            new BezierLine(
+                                    new Pose(52.335, 121.437),
+                                    new Pose(25.686, 70.000)
+                            )
+                    )
+                    .setConstantHeadingInterpolation(Math.toRadians(0))
+                    .build();
+            autoChainSix=follower.pathBuilder()
+                    //arm up
+                    .addPath(
+                            new BezierLine(
+                                    new Pose(25.686, 70.000),
+                                    new Pose(40.000, 70.000)
+                            )
+                    )
+                    .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(0))
+                    .build();
+            autoChainSeven=follower.pathBuilder()
+                    //outtake
+                    .addPath(
+                            new BezierLine(
+                                    new Pose(40.000, 70.000),
+                                    new Pose(31.000, 70.000)
+                            )
+                    )
+                    .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(0))
+                    .addPath(
+                            new BezierLine(
+                                    new Pose(31.000, 70.000),
+                                    new Pose(9.974, 11.359)
+                            )
+                    )
+                    .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(0))
                     .build();
         }
     }
@@ -109,80 +162,100 @@ public class PPtestZerex extends OpMode {
     public int autonomousPathUpdate() {
         switch (pathState) {
             case 0:
-                follower.followPath(paths.completeAutoChain);
+                follower.followPath(paths.autoChainOne);
                 pathState = 1;
                 break;
-
-//            case 1:
-//                if (follower.getCurrentPathNumber() == 1) {
-//                    arm.up(0.5);
-//                    actionTimer = System.currentTimeMillis();
-//                    pathState = 2;
-//                }
-//                break;
-//
-//            case 2:
-//                if ((System.currentTimeMillis() - actionTimer) >= 750) {
-//                    arm.stop();
-//                    intake.outtake();
-//                    actionTimer = System.currentTimeMillis();
-//                    pathState = 3;
-//                }
-//                break;
-//
-//            case 3:
-//                if ((System.currentTimeMillis() - actionTimer) >= 2000) {
-//                    intake.stop();
-//                    pathState = 4;
-//                }
-//                break;
-//
-//            case 4:
-//                if (follower.getCurrentPathNumber() == 2) {
-//                    intake.intake();
-//                    actionTimer = System.currentTimeMillis();
-//                    pathState = 5;
-//                }
-//                break;
-//
-//            case 5:
-//                if ((System.currentTimeMillis() - actionTimer) >= 3000) {
-//                    intake.stop();
-//                    pathState = 6;
-//                }
-//                break;
-//
-//            case 6:
-//                if (follower.getCurrentPathNumber() == 4) {
-//                    arm.up(0.5);
-//                    actionTimer = System.currentTimeMillis();
-//                    pathState = 7;
-//                }
-//                break;
-//
-//            case 7:
-//                if ((System.currentTimeMillis() - actionTimer) >= 750) {
-//                    arm.stop();
-//                    intake.outtake();
-//                    actionTimer = System.currentTimeMillis();
-//                    pathState = 8;
-//                }
-//                break;
-//
-//            case 8:
-//                if ((System.currentTimeMillis() - actionTimer) >= 2000) {
-//                    intake.stop();
-//                    pathState = 9;
-//                }
-//                break;
-
             case 1:
                 if (!follower.isBusy() || follower.getVelocity().getMagnitude() < 0.1) {
-                    pathState = 2;
+                    arm.up(0.5);
+                    actionTimer=System.currentTimeMillis();
+                    pathState=2;
+                }
+                break;
+            case 2:
+                if (System.currentTimeMillis()-actionTimer>750) {
+                    arm.stop();
+                    follower.followPath(paths.autoChainTwo);
+                    pathState = 3;
+                }
+                break;
+            case 3:
+                if (!follower.isBusy() || follower.getVelocity().getMagnitude() < 0.1) {
+                    intake.outtake();
+                    actionTimer=System.currentTimeMillis();
+                    pathState=4;
+                }
+                break;
+            case 4:
+                if (System.currentTimeMillis()-actionTimer>2000) {
+                    intake.stop();
+                    follower.followPath(paths.autoChainThree);
+                    pathState = 5;
+                }
+                break;
+            case 5:
+                if (!follower.isBusy() || follower.getVelocity().getMagnitude() < 0.1) {
+                    arm.down(0.5);
+                    actionTimer=System.currentTimeMillis();
+                    pathState=6;
+                }
+                break;
+            case 6:
+                if (System.currentTimeMillis()-actionTimer>750) {
+                    arm.stop();
+                    follower.followPath(paths.autoChainFour);
+                    pathState = 7;
+                }
+                break;
+            case 7:
+                if (!follower.isBusy() || follower.getVelocity().getMagnitude() < 0.1) {
+                    intake.intake();
+                    actionTimer=System.currentTimeMillis();
+                    pathState=8;
+                }
+                break;
+            case 8:
+                if (System.currentTimeMillis()-actionTimer>2000) {
+                    intake.stop();
+                    follower.followPath(paths.autoChainFive);
+                    pathState = 9;
+                }
+                break;
+            case 9:
+                if (!follower.isBusy() || follower.getVelocity().getMagnitude() < 0.1) {
+                    arm.up(0.5);
+                    actionTimer=System.currentTimeMillis();
+                    pathState=10;
+                }
+                break;
+            case 10:
+                if (System.currentTimeMillis()-actionTimer>750) {
+                    arm.stop();
+                    follower.followPath(paths.autoChainSix);
+                    pathState = 11;
+                }
+                break;
+            case 11:
+                if (!follower.isBusy() || follower.getVelocity().getMagnitude() < 0.1) {
+                    intake.outtake();
+                    actionTimer=System.currentTimeMillis();
+                    pathState=12;
+                }
+                break;
+            case 12:
+                if (System.currentTimeMillis()-actionTimer>2000) {
+                    intake.stop();
+                    follower.followPath(paths.autoChainSeven);
+                    pathState = 13;
+                }
+                break;
+            case 13:
+                if (!follower.isBusy() || follower.getVelocity().getMagnitude() < 0.1) {
+                    pathState = 14;
                 }
                 break;
 
-            case 2:
+            case 14:
                 break;
         }
         return pathState;
