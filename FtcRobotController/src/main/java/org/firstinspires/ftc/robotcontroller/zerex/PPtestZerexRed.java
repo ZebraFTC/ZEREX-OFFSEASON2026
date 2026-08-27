@@ -4,7 +4,6 @@ import com.bylazar.configurables.annotations.Configurable;
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
 import com.pedropathing.follower.Follower;
-import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
@@ -15,7 +14,7 @@ import org.firstinspires.ftc.robotcontroller.pedroPathing.Constants;
 
 @Autonomous
 @Configurable
-public class PPtestZerex extends OpMode {
+public class PPtestZerexRed extends OpMode {
     private DcMotor frontLeft;
     private DcMotor frontRight;
     private DcMotor backRight;
@@ -79,6 +78,12 @@ public class PPtestZerex extends OpMode {
         public PathChain autoChainFive;
         public PathChain autoChainSix;
         public PathChain autoChainSeven;
+        public PathChain autoChainEight;
+        public PathChain autoChainNine;
+        public PathChain autoChainTen;
+        public PathChain autoChainEleven;
+        public PathChain autoChainTwelve;
+        public PathChain autoChainThirteen;
         public Paths(Follower follower) {
             autoChainOne = follower.pathBuilder()
                     .addPath(
@@ -94,7 +99,7 @@ public class PPtestZerex extends OpMode {
                     .addPath(
                             new BezierLine(
                                     new Pose(25.495, 70.000),
-                                    new Pose(38.000, 70.000)
+                                    new Pose(34.000, 70.000)
                             )
                     )
                     .setTangentHeadingInterpolation()
@@ -103,7 +108,7 @@ public class PPtestZerex extends OpMode {
                     //outtake
                     .addPath(
                             new BezierLine(
-                                    new Pose(38.000, 70.000),
+                                    new Pose(34.000, 70.000),
                                     new Pose(25.559, 70.000)
                             )
                     )
@@ -114,7 +119,7 @@ public class PPtestZerex extends OpMode {
                     .addPath(
                             new BezierLine(
                                     new Pose(25.559, 70.000),
-                                    new Pose(52.335, 121.437)
+                                    new Pose(50.45821056146614, 120.83728418937467)
                             )
                     )
                     .setTangentHeadingInterpolation()
@@ -123,7 +128,7 @@ public class PPtestZerex extends OpMode {
                     //intake
                     .addPath(
                             new BezierLine(
-                                    new Pose(52.335, 121.437),
+                                    new Pose(50.45821056146614, 120.83728418937467),
                                     new Pose(25.686, 70.000)
                             )
                     )
@@ -134,7 +139,7 @@ public class PPtestZerex extends OpMode {
                     .addPath(
                             new BezierLine(
                                     new Pose(25.686, 70.000),
-                                    new Pose(40.000, 70.000)
+                                    new Pose(36.000, 70.000)
                             )
                     )
                     .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(0))
@@ -143,7 +148,47 @@ public class PPtestZerex extends OpMode {
                     //outtake
                     .addPath(
                             new BezierLine(
-                                    new Pose(40.000, 70.000),
+                                    new Pose(36.000, 70.000),
+                                    new Pose(25.559, 70.000)
+                            )
+                    )
+                    .setConstantHeadingInterpolation(Math.toRadians(0))
+                    .build();
+            autoChainEight=follower.pathBuilder()
+                    //arm down
+                    .addPath(
+                            new BezierLine(
+                                    new Pose(25.559, 70.000),
+                                    new Pose(63.45821056146614, 122.83728418937467)
+                            )
+                    )
+                    .setTangentHeadingInterpolation()
+                    .build();
+            autoChainNine=follower.pathBuilder()
+                    //intake
+                    .addPath(
+                            new BezierLine(
+                                    new Pose(63.45821056146614, 122.83728418937467),
+                                    new Pose(25.686, 70.000)
+                            )
+                    )
+                    .setConstantHeadingInterpolation(Math.toRadians(0))
+                    .build();
+            autoChainTen=follower.pathBuilder()
+                    //arm up
+                    .addPath(
+                            new BezierLine(
+                                    new Pose(25.686, 70.000),
+                                    new Pose(35.000, 70.000)
+                            )
+                    )
+                    .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(0))
+                    .build();
+            autoChainEleven=follower.pathBuilder()
+                    //outtake
+                    .addPath(
+                            new BezierLine(
+                                    new Pose(35, 70),
                                     new Pose(31.000, 70.000)
                             )
                     )
@@ -166,21 +211,21 @@ public class PPtestZerex extends OpMode {
                 pathState = 1;
                 break;
             case 1:
-                if (!follower.isBusy() || follower.getVelocity().getMagnitude() < 0.1) {
+                if (!follower.isBusy()) {
                     arm.up(0.5);
                     actionTimer=System.currentTimeMillis();
                     pathState=2;
                 }
                 break;
             case 2:
-                if (System.currentTimeMillis()-actionTimer>750) {
+                if (System.currentTimeMillis()-actionTimer>850) {
                     arm.stop();
-                    follower.followPath(paths.autoChainTwo);
+                    follower.followPath(paths.autoChainTwo,0.5,true);
                     pathState = 3;
                 }
                 break;
             case 3:
-                if (!follower.isBusy() || follower.getVelocity().getMagnitude() < 0.1) {
+                if (!follower.isBusy()) {
                     intake.outtake();
                     actionTimer=System.currentTimeMillis();
                     pathState=4;
@@ -194,7 +239,7 @@ public class PPtestZerex extends OpMode {
                 }
                 break;
             case 5:
-                if (!follower.isBusy() || follower.getVelocity().getMagnitude() < 0.1) {
+                if (!follower.isBusy()) {
                     arm.down(0.5);
                     actionTimer=System.currentTimeMillis();
                     pathState=6;
@@ -203,12 +248,12 @@ public class PPtestZerex extends OpMode {
             case 6:
                 if (System.currentTimeMillis()-actionTimer>750) {
                     arm.stop();
-                    follower.followPath(paths.autoChainFour);
+                    follower.followPath(paths.autoChainFour,0.5,true);
                     pathState = 7;
                 }
                 break;
             case 7:
-                if (!follower.isBusy() || follower.getVelocity().getMagnitude() < 0.1) {
+                if (!follower.isBusy()) {
                     intake.intake();
                     actionTimer=System.currentTimeMillis();
                     pathState=8;
@@ -222,21 +267,21 @@ public class PPtestZerex extends OpMode {
                 }
                 break;
             case 9:
-                if (!follower.isBusy() || follower.getVelocity().getMagnitude() < 0.1) {
+                if (!follower.isBusy()) {
                     arm.up(0.5);
                     actionTimer=System.currentTimeMillis();
                     pathState=10;
                 }
                 break;
             case 10:
-                if (System.currentTimeMillis()-actionTimer>750) {
+                if (System.currentTimeMillis()-actionTimer>850) {
                     arm.stop();
-                    follower.followPath(paths.autoChainSix);
+                    follower.followPath(paths.autoChainSix,0.5,true);
                     pathState = 11;
                 }
                 break;
             case 11:
-                if (!follower.isBusy() || follower.getVelocity().getMagnitude() < 0.1) {
+                if (!follower.isBusy() ) {
                     intake.outtake();
                     actionTimer=System.currentTimeMillis();
                     pathState=12;
@@ -250,12 +295,67 @@ public class PPtestZerex extends OpMode {
                 }
                 break;
             case 13:
-                if (!follower.isBusy() || follower.getVelocity().getMagnitude() < 0.1) {
-                    pathState = 14;
+                if (!follower.isBusy() ) {
+                    arm.down(0.5);
+                    actionTimer=System.currentTimeMillis();
+                    pathState=14;
                 }
                 break;
-
             case 14:
+                if (System.currentTimeMillis()-actionTimer>750) {
+                    arm.stop();
+                    follower.followPath(paths.autoChainEight,0.5,true);
+                    pathState = 15;
+                }
+                break;
+            case 15:
+                if (!follower.isBusy()) {
+                    intake.intake();
+                    actionTimer=System.currentTimeMillis();
+                    pathState=16;
+                }
+                break;
+            case 16:
+                if (System.currentTimeMillis()-actionTimer>2000) {
+                    intake.stop();
+                    follower.followPath(paths.autoChainNine);
+                    pathState = 17;
+                }
+                break;
+            case 17:
+                if (!follower.isBusy() ) {
+                    arm.up(0.5);
+                    actionTimer=System.currentTimeMillis();
+                    pathState=18;
+                }
+                break;
+            case 18:
+                if (System.currentTimeMillis()-actionTimer>850) {
+                    arm.stop();
+                    follower.followPath(paths.autoChainTen,0.5,true);
+                    pathState = 19;
+                }
+                break;
+            case 19:
+                if (!follower.isBusy() ) {
+                    intake.outtake();
+                    actionTimer=System.currentTimeMillis();
+                    pathState=20;
+                }
+                break;
+            case 20:
+                if(System.currentTimeMillis()-actionTimer>2000){
+                    intake.stop();
+                    follower.followPath(paths.autoChainEleven);
+                    pathState=21;
+                }
+                break;
+            case 21:
+                if (!follower.isBusy()) {
+                    pathState=22;
+                }
+                break;
+            case 22:
                 break;
         }
         return pathState;
