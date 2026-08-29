@@ -348,7 +348,7 @@ public class PPtestZerexBlueLeft extends OpMode {
             case 20:
                 if(System.currentTimeMillis()-actionTimer>2000){
                     intake.stop();
-                    follower.followPath(paths.autoChainEleven);
+                    follower.followPath(paths.autoChainEleven,0.75,true);
                     pathState=21;
                 }
                 break;
