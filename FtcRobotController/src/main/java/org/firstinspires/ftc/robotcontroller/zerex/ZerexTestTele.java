@@ -35,9 +35,6 @@ public class  ZerexTestTele extends OpMode {
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        rightArmMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftArmMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
         arm = new Neck(leftArmMotor, rightArmMotor);
         intake = new Mouth(intakeMotor);
     }
